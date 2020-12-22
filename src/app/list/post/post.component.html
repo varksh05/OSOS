@@ -1,0 +1,9 @@
+<div *ngIf='currentPost != null && currentPost != ""' class="div">
+  <h3><span class="text-success">{{currentPost.title}}</span></h3>
+  <p>{{currentPost.body}}</p>
+
+  <p *ngIf="currentPost.filesize != null">{{ currentPost.filesize }}</p>
+
+  <button class="btn btn-danger mt-1 mb-1 rounded-0" (click)="deletePost($event, currentPost.id)">Delete</button>
+
+</div>

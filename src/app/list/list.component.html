@@ -1,0 +1,86 @@
+<div class="row mt-5">
+  <!-- {{ index }} -->
+  <div class="col-lg-3">
+    <ul class="list-group rounded-0">
+      <li *ngFor="let post of postList" class="list-group-item" (click)="newBtn($event, post)">
+        {{ post.title}}
+      </li>
+      <li class="list-group-item">
+        <button class="btn w-100 mt-1 mb-1 rounded-0" [ngClass]="{
+          'btn-success': !showAddPostForm, 'btn-danger': showAddPostForm}" (click)="toggleAddPost()">
+          {{ addCancelBtn }}
+        </button>
+      </li>
+    </ul>
+  </div>
+
+  <div class="col-lg">
+    <app-post *ngIf="!showAddPostForm" [currentPost]="currentPost" [postList]="postList">
+    </app-post>
+    <div *ngIf="showAddPostForm">
+
+      <form [formGroup]="newPostForm" (ngSubmit)="onSubmit()">
+
+
+        <!-- Title -->
+        <div class="form-group">
+          <label for="form-title">Post title <sup class="text-danger">*</sup></label>
+          <input type="text" class="form-control rounded-0" id="form-title" formControlName="title" [ngClass]="{
+                'is-invalid': newPostForm.get('title').errors && (newPostForm.get('title').touched || onSubmitted)
+              }" required />
+          <div *ngIf=" newPostForm.get('title').errors && (newPostForm.get('title').touched || onSubmitted) "
+            id="form1-name-invalid" class="invalid-feedback">
+            <div *ngIf="newPostForm.get('title').errors.required">
+              Post title should not be empty.
+            </div>
+            <div *ngIf="newPostForm.get('title').errors.minlength">
+              Minimum required number is 2.
+            </div>
+            <div *ngIf="newPostForm.get('title').errors.maxlength">
+              Minimum required number is 150.
+            </div>
+          </div>
+        </div>
+
+        <!-- Post Message -->
+        <div class="form-group">
+          <label for="form-post">What is your mind? <sup class="text-danger">*</sup></label>
+          <textarea class="form-control rounded-0" id="form-post" formControlName="post" rows="5" [ngClass]="{
+            'is-invalid':
+            newPostForm.get('post').errors && (newPostForm.get('post').touched ||  onSubmitted)
+          }" required></textarea>
+          <div *ngIf="newPostForm.get('post').errors && (newPostForm.get('post').touched ||  onSubmitted)"
+            class="invalid-feedback" id="form-email-error" class="invalid-feedback">
+            <div *ngIf="newPostForm.get('post').errors.required">
+              Post message should not be empty.
+            </div>
+            <div *ngIf="newPostForm.get('post').errors.minlength">
+              Minimum required number is 2.
+            </div>
+          </div>
+        </div>
+
+        <!-- Upload -->
+        <div class="mt-1 pb-3">
+          <!-- <button class="btn btn-warning rounded-0" [disabled]="" type="submit">
+            Upload
+          </button> -->
+
+          <input type="file" class="btn btn-light rounded-0" name="image_01" (change)="onFileSelector1($event)"> <br />
+          <!-- <input type="file" class="btn btn-light rounded-0" name="image_02" (change)="onFileSelector2($event)"> <br /> -->
+          <!-- <input type="file" class="btn btn-light rounded-0" name="image_03" (change)="onFileSelector3($event)"> <br /> -->
+        </div>
+
+        <hr>
+        <!-- Submit -->
+        <div class="mt-2 text-right">
+          <button class="btn btn-dark rounded-0" [disabled]="" type="submit">
+            Submit
+          </button>
+        </div>
+
+
+      </form>
+    </div>
+  </div>
+</div>
