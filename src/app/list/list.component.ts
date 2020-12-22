@@ -1,8 +1,6 @@
 import { PostService } from './../post.service';
-import { Component, OnInit, Injectable } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { fileURLToPath } from 'url';
 
 interface Post {
   id: number;
@@ -26,6 +24,7 @@ export class ListComponent implements OnInit {
   onSubmitted = false;
   showDelete = false;
   selectedFile: any;
+  result: string = '';
   newPostForm = new FormGroup({
     title: new FormControl('', [
       Validators.required,
@@ -60,25 +59,34 @@ export class ListComponent implements OnInit {
         userid: Math.floor(Math.random() * 10),
         title: this.newPostForm.get('title').value,
         body: this.newPostForm.get('post').value,
-        filesize:
-          this.selectedFile.name +
-          ' (' +
-          Math.floor(this.selectedFile.size / 10000) / 100 +
-          ' MB)',
+        filesize: this.result,
       };
       this.postList.push(data);
       this.newPostForm.reset();
+      this.result = '';
       this.onSubmitted = false;
     }
   }
 
-  onFileSelector1(e) {
-    if (e.target.files[0].size > 2000001) {
-      alert('File size should be below 2MB');
-      e.target.files.pop();
-      return;
+  onFileSelector(e) {
+    this.result = '';
+    var select = e.target.files;
+    if (select.length < 4) {
+      for (let i = 0; i < select.length; i++) {
+        if (select[i].size < 2000001) {
+          this.result +=
+            '<br><span class="text-strong">' + select[i].name + '</span> ';
+          this.result +=
+            ' <span class="text-muted">(' +
+            Math.floor(select[i].size / 10000) / 100 +
+            'MB)</span>';
+        } else {
+          alert('Image Size should be below 2Mb');
+        }
+      }
+    } else {
+      alert('Select between 1 - 3 images');
     }
-    this.selectedFile = <File>e.target.files[0];
   }
 
   constructor(private postService: PostService) {

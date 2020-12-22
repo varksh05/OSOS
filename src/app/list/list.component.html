@@ -61,12 +61,15 @@
         </div>
 
         <!-- Upload -->
-        <div class="mt-1 pb-3">
+        <div class="form-group mt-5 pb-3">
           <!-- <button class="btn btn-warning rounded-0" [disabled]="" type="submit">
             Upload
           </button> -->
 
-          <input type="file" class="btn btn-light rounded-0" name="image_01" (change)="onFileSelector1($event)"> <br />
+          <input type="file" class="form-control btn btn-outline-dark rounded-0" multiple id="imageFiles" size="3"
+            (change)="onFileSelector($event)"> <br />
+
+          <p [innerHTML]="result"></p>
           <!-- <input type="file" class="btn btn-light rounded-0" name="image_02" (change)="onFileSelector2($event)"> <br /> -->
           <!-- <input type="file" class="btn btn-light rounded-0" name="image_03" (change)="onFileSelector3($event)"> <br /> -->
         </div>

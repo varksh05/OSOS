@@ -2,3 +2,7 @@
 *{
   font-family: 'Montserrat', sans-serif;
 }
+
+.text-strong {
+  font-weight: 500;
+}
